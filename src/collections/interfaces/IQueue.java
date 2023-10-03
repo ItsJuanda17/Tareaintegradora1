@@ -2,13 +2,9 @@ package collections.interfaces;
 
 import exception.QueueException;
 
-public interface IQueue<E extends Comparable<E>> {
-
-    public int size();
+public interface IQueue<E> {
 
     public boolean isEmpty();
-
-    public boolean contains(E element);
 
     public E front() throws QueueException ;
 

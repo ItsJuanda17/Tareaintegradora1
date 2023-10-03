@@ -12,11 +12,11 @@ public class StackTest {
     private IStack<String> stack;
 
     public void setUp1() {
-        stack = new Stack<String>();
+        stack = new Stack<>();
     }
 
     public void setUp2() {
-        stack = new Stack<String>();
+        stack = new Stack<>();
         try {
             stack.push("item");
         } catch (Exception e) {
@@ -89,7 +89,7 @@ public class StackTest {
     @Test
     public void testPushFilled() {
         // setup
-        setUp1();
+        setUp2();
         boolean isExceptionThrow = false;
         String top = "";
         int size = stack.size();
@@ -97,6 +97,7 @@ public class StackTest {
         // act
         try {
             stack.push("item");
+            top = stack.top();
         }catch (StackException e){
             isExceptionThrow = true;
         }
@@ -122,7 +123,6 @@ public class StackTest {
         // setup
         setUp1();
         boolean isExceptionThrow = false;
-        int size = stack.size();
 
         // act
         try {
@@ -137,10 +137,9 @@ public class StackTest {
     @Test
     public void testTopFilled() {
         // setup
-        setUp1();
+        setUp2();
         boolean isExceptionThrow = false;
         String top = "";
-        int size = stack.size();
 
         // act
         try {
@@ -160,7 +159,6 @@ public class StackTest {
         // setup
         setUp1();
         boolean isExceptionThrow = false;
-        int size = stack.size();
 
         // act
         try {
@@ -175,7 +173,7 @@ public class StackTest {
     @Test
     public void testPopFilled() {
         // setup
-        setUp1();
+        setUp2();
         boolean isExceptionThrow = false;
         String top = "";
         int size = stack.size();

@@ -3,7 +3,7 @@ package collections.dataStructures;
 import collections.interfaces.IStack;
 import exception.StackException;
 
-public class Stack<E extends Comparable<E>> implements IStack<E> {
+public class Stack<E> implements IStack<E> {
 
     private Node<E> top;
     private int size;

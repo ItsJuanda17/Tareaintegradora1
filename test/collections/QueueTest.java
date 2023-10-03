@@ -14,7 +14,7 @@ public class QueueTest {
 
     @BeforeEach
     void setUp() {
-        queue = new Queue<String>();
+        queue = new Queue<>();
     }
 
     @Test
@@ -27,7 +27,7 @@ public class QueueTest {
         // Act
         try {
             queue.enqueue(item);
-            element = queue.dequeue();
+            element = queue.front();
         } catch (QueueException e) {
             exceptionThrown = true;
         }
@@ -203,7 +203,7 @@ public class QueueTest {
 
         // Assert
         assertFalse(exceptionThrown);
-        assertEquals(item3, dequeue1);
+        assertEquals(item1, dequeue1);
         assertEquals(item2, dequeue2);
         assertFalse(queue.isEmpty());
     }
