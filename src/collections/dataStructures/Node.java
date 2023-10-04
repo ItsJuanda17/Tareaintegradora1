@@ -1,6 +1,6 @@
 package collections.dataStructures;
 
-public class Node<E extends Comparable<E>> {
+public class Node<E> {
 
     private E item;
     private Node<E> next;

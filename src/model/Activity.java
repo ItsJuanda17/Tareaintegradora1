@@ -3,19 +3,15 @@ package model;
 
 import java.util.Calendar;
 
-public class Activities{
+public class Activity implements Comparable<Activity> {
 
     private String title;
     private String description;
     private Calendar deadLine;
-
     private Boolean priority;
+    private ActivityType type;
 
-    private ActivitieType type;
-
-
-
-    public Activities(String title, String description, Calendar deadLine, Boolean priority , ActivitieType type) {
+    public Activity(String title, String description, Calendar deadLine, Boolean priority , ActivityType type) {
         this.title = title;
         this.description = description;
         this.deadLine = deadLine;
@@ -47,8 +43,6 @@ public class Activities{
         this.description = description;
     }
 
-
-
     public Boolean getPriority() {
         return priority;
     }
@@ -57,11 +51,16 @@ public class Activities{
         this.priority = priority;
     }
 
-    public ActivitieType getType() {
+    public ActivityType getType() {
         return type;
     }
 
-    public void setType(ActivitieType type) {
+    public void setType(ActivityType type) {
         this.type = type;
+    }
+
+    @Override
+    public int compareTo(Activity o) {
+        return 0;
     }
 }

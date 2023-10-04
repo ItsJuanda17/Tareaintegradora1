@@ -1,36 +1,128 @@
 package ui;
 
-import model.ActivitieType;
-import model.Activities;
-import collections.dataStructures.HashTable;
+import model.Controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+import exception.QueueException;
+import exception.StackException;
 
 public class Main {
+
+    private Controller c;
+    private Scanner sc;
+    private SimpleDateFormat format;
+
+    public Main() {
+        this.sc = new Scanner(System.in);
+        this.c = new Controller();
+        this.format = new SimpleDateFormat("dd/MM/yyyy");
+    }
+
     public static void main(String[] args) {
+        Main m = new Main();
+        int option;
 
-        HashTable<Integer, Activities> taskTable = new HashTable<>();
+        do {
+            option = m.showMenuAndGetOption();
+            m.answerOption(option);
+        } while (option != 0);
+    }
 
-
-        Calendar deadline1 = Calendar.getInstance();
-        deadline1.set(2023, Calendar.DECEMBER, 31);
-        Activities task1 = new Activities("Tarea 1", "Descripción 1", deadline1, true, ActivitieType.PRIORITY);
-
-        Calendar deadline2 = Calendar.getInstance();
-        deadline2.set(2023, Calendar.NOVEMBER, 15);
-        Activities task2 = new Activities("Tarea 2", "Descripción 2", deadline2, false, ActivitieType.NON_PRIORITY);
-
-        taskTable.put(1, task1);
-        taskTable.put(2, task2);
-
-
-        Activities retrievedTask = taskTable.get(1);
-        if (retrievedTask != null) {
-            System.out.println("Título de la tarea 1: " + retrievedTask.getTitle());
-            System.out.println("Descripción de la tarea 1: " + retrievedTask.getDescription());
-            System.out.println("Fecha límite de la tarea 1: " + retrievedTask.getDeadLine().getTime());
-        } else {
-            System.out.println("Tarea no encontrada.");
+    public int showMenuAndGetOption() {
+        int input;
+        try {
+            System.out.print("\nApplication menu, type in an option\n" +
+                    "(1) Register activity\n" +
+                    "(2) Modify activity info\n" +
+                    "(3) Delete activity\n" + // Option for deleting an activity
+                    "(4) View activities list\n" +
+                    "(0) Exit\n:");
+            input = sc.nextInt();
+            sc.nextLine();
+            return input;
+        } catch (InputMismatchException e) {
+            sc.nextLine();
+            return -1;
         }
+    }
+
+    public void answerOption(int userOption) {
+        switch (userOption) {
+            case 1:
+                registerActivity();
+                break;
+            case 2:
+
+                break;
+            case 3:
+                removeActivity();
+                break;
+            case 4:
+
+                break;
+            case 0:
+                System.out.println("Program ends");
+                break;
+            default:
+                System.out.println("Invalid option. Please, try again");
+                break;
+        }
+    }
+
+    public void registerActivity() {
+        System.out.println("Please, type in the activity title");
+        String title = sc.nextLine();
+
+        System.out.println("Please, type in the activity description");
+        String description = sc.nextLine();
+
+        Calendar deadLine = readDate("Please, type in the activity deadline");
+
+        System.out.println("Please, type (1) if it is priority or (2) otherwise");
+        int priorityOption = sc.nextInt();
+
+        System.out.println("Please, type (1) if it is a task or (2) if it is a reminder");
+        int typeOption = sc.nextInt();
+
+        System.out.println(c.registerActivity(title, description, deadLine, priorityOption, typeOption));
+    }
+
+    public void removeActivity() {
+        System.out.println("Please, type in the title of the activity you want to remove:");
+        String title = sc.nextLine();
+
+        try {
+            String message = c.removeActivity(title);
+            System.out.println(message);
+        } catch (StackException | QueueException e) {
+            System.out.println("An error occurred while removing the activity: " + e.getMessage());
+        }
+    }
+
+    public Calendar readDate(String message) {
+        Calendar calendarTime = Calendar.getInstance();
+        format.setLenient(false);
+
+        String date = "";
+        boolean validDate = false;
+
+        while (!validDate) {
+            System.out.print("\nThe date must follow the format: dd/MM/yyyy\n" + message);
+            date = sc.nextLine();
+
+            try {
+                calendarTime.setTime(format.parse(date));
+                validDate = true;
+            } catch (ParseException error) {
+                System.out.println("Invalid date format. Please try again.");
+            }
+        }
+
+        return calendarTime;
     }
 }
