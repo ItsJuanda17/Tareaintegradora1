@@ -20,11 +20,12 @@ public class Controller {
 
     public String registerActivity(String title, String description, Calendar deadLine, int priorityOption, int typeOption) {
         String msg = "";
-        Activity newActivity = new Activity(title, description, deadLine, (priorityOption == 1), (typeOption == 1) ? ActivityType.TASK : ActivityType.REMINDER);
+        Activity newActivity = new Activity(title, description, deadLine, (priorityOption == 1),
+                (typeOption == 1) ? ActivityType.TASK : ActivityType.REMINDER);
         try {
-            if(activitiesManager.containsActivity(title)){
+            if (activitiesManager.containsActivity(title)) {
                 msg = "The activity already exists";
-            }else {
+            } else {
                 activitiesManager.addActivity(newActivity);
                 stack.push(Actions.ADD);
                 lastActivity = newActivity;
@@ -37,22 +38,22 @@ public class Controller {
         return msg;
     }
 
-    public String undoLasAction(){
+    public String undoLasAction() {
         String msg = "";
         try {
             Actions lastAction = stack.pop();
-            switch (lastAction){
+            switch (lastAction) {
                 case ADD:
                     activitiesManager.removeActivity(lastActivity);
-                    msg = "The last action was undone successfully";
+                    msg = "The add activity action was undone successfully";
                     break;
                 case REMOVE:
                     activitiesManager.addActivity(lastActivity);
-                    msg = "The last action was undone successfully";
+                    msg = "The remove activity action was undone successfully";
                     break;
                 case MODIFY:
                     lastActivity = originalActivity;
-                    msg = "The last action was undone successfully";
+                    msg = "The modify activity action action was undone successfully";
                     break;
             }
         } catch (QueueException | StackException e) {
@@ -61,6 +62,24 @@ public class Controller {
         return msg;
     }
 
+    public String removeActivity(String title) throws StackException, QueueException {
+        String msg = "";
+        Activity removedActivity = activitiesManager.getActivity(title);
 
+        if (removedActivity != null) {
+
+            originalActivity = removedActivity;
+
+            activitiesManager.removeActivity(removedActivity);
+
+            stack.push(Actions.REMOVE);
+
+            msg = "The activity was removed successfully";
+        } else {
+            msg = "Activity not found";
+        }
+
+        return msg;
+    }
 
 }
