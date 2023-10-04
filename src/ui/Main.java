@@ -39,8 +39,9 @@ public class Main {
             System.out.print("\nApplication menu, type in an option\n" +
                     "(1) Register activity\n" +
                     "(2) Modify activity info\n" +
-                    "(3) Delete activity\n" + // Option for deleting an activity
-                    "(4) View activities list\n" +
+                    "(3) Delete activity " +
+                    "(4) View activities list" +
+                    "(5) Undo last action" +
                     "(0) Exit\n:");
             input = sc.nextInt();
             sc.nextLine();
@@ -64,6 +65,9 @@ public class Main {
                 break;
             case 4:
 
+                break;
+            case 5:
+                undoLastAction();
                 break;
             case 0:
                 System.out.println("Program ends");
@@ -102,6 +106,10 @@ public class Main {
         } catch (StackException | QueueException e) {
             System.out.println("An error occurred while removing the activity: " + e.getMessage());
         }
+    }
+
+    public void undoLastAction() {
+        System.out.println(c.undoLasAction());
     }
 
     public Calendar readDate(String message) {

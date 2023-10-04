@@ -18,8 +18,7 @@ public class Controller {
         this.activitiesManager = new ActivitiesManager();
     }
 
-    public String registerActivity(String title, String description, Calendar deadLine, int priorityOption,
-            int typeOption) {
+    public String registerActivity(String title, String description, Calendar deadLine, int priorityOption, int typeOption) {
         String msg = "";
         Activity newActivity = new Activity(title, description, deadLine, (priorityOption == 1),
                 (typeOption == 1) ? ActivityType.TASK : ActivityType.REMINDER);
@@ -46,15 +45,15 @@ public class Controller {
             switch (lastAction) {
                 case ADD:
                     activitiesManager.removeActivity(lastActivity);
-                    msg = "The last action was undone successfully";
+                    msg = "The add activity action was undone successfully";
                     break;
                 case REMOVE:
                     activitiesManager.addActivity(lastActivity);
-                    msg = "The last action was undone successfully";
+                    msg = "The remove activity action was undone successfully";
                     break;
                 case MODIFY:
                     lastActivity = originalActivity;
-                    msg = "The last action was undone successfully";
+                    msg = "The modify activity action action was undone successfully";
                     break;
             }
         } catch (QueueException | StackException e) {

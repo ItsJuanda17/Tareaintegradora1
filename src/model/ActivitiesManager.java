@@ -11,6 +11,18 @@ public class ActivitiesManager {
     private PriorityQueue<Activity> PriorActivities;
     private Queue<Activity> NonPriorActivities;
 
+    public HashTable<String, Activity> getActivities() {
+        return activities;
+    }
+
+    public PriorityQueue<Activity> getPriorActivities() {
+        return PriorActivities;
+    }
+
+    public Queue<Activity> getNonPriorActivities() {
+        return NonPriorActivities;
+    }
+
     public ActivitiesManager() {
         this.activities = new HashTable<>();
         this.PriorActivities = new PriorityQueue<>();
