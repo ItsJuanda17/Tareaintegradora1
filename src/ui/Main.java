@@ -2,7 +2,7 @@ package ui;
 
 import model.ActivitieType;
 import model.Activities;
-import model.HashTable;
+import collections.dataStructures.HashTable;
 
 import java.util.Calendar;
 
