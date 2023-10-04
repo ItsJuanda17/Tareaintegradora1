@@ -60,7 +60,11 @@ public class Activity implements Comparable<Activity> {
     }
 
     @Override
-    public int compareTo(Activity o) {
-        return 0;
+    public int compareTo(Activity other) {
+        if(this.deadLine.compareTo(other.deadLine) <= 0){
+            return 1;
+        }else{
+            return -1;
+        }
     }
 }

@@ -37,6 +37,7 @@ public class Main {
                     "(2) Modify activity info\n" +
                     "(3) Delete activity " +
                     "(4) View activities list" +
+                    "(5) Undo last action" +
                     "(0) Exit\n:");
             input = sc.nextInt();
             sc.nextLine();
@@ -58,6 +59,9 @@ public class Main {
             case 3:
                 break;
             case 4:
+                break;
+            case 5:
+                undoLastAction();
                 break;
             case 0:
                 System.out.println("Program ends");
