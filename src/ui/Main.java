@@ -3,10 +3,13 @@ package ui;
 import model.Controller;
 
 import java.text.ParseException;
-import java.util.Calendar;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import exception.QueueException;
+import exception.StackException;
 
 public class Main {
 
@@ -14,11 +17,12 @@ public class Main {
     private Scanner sc;
     private SimpleDateFormat format;
 
-    public Main(){
+    public Main() {
         this.sc = new Scanner(System.in);
         this.c = new Controller();
-        this.format = new SimpleDateFormat("dd/mm/yyyy");
+        this.format = new SimpleDateFormat("dd/MM/yyyy");
     }
+
     public static void main(String[] args) {
         Main m = new Main();
         int option;
@@ -35,8 +39,8 @@ public class Main {
             System.out.print("\nApplication menu, type in an option\n" +
                     "(1) Register activity\n" +
                     "(2) Modify activity info\n" +
-                    "(3) Delete activity " +
-                    "(4) View activities list" +
+                    "(3) Delete activity\n" + // Option for deleting an activity
+                    "(4) View activities list\n" +
                     "(0) Exit\n:");
             input = sc.nextInt();
             sc.nextLine();
@@ -56,8 +60,10 @@ public class Main {
 
                 break;
             case 3:
+                removeActivity();
                 break;
             case 4:
+
                 break;
             case 0:
                 System.out.println("Program ends");
@@ -68,7 +74,7 @@ public class Main {
         }
     }
 
-    public void registerActivity(){
+    public void registerActivity() {
         System.out.println("Please, type in the activity title");
         String title = sc.nextLine();
 
@@ -77,20 +83,28 @@ public class Main {
 
         Calendar deadLine = readDate("Please, type in the activity deadline");
 
-        System.out.println("Please, type (1) if is priority or (2) otherwise");
+        System.out.println("Please, type (1) if it is priority or (2) otherwise");
         int priorityOption = sc.nextInt();
 
-        System.out.println("Please, type (1) if is a task or (2) if is a reminder");
+        System.out.println("Please, type (1) if it is a task or (2) if it is a reminder");
         int typeOption = sc.nextInt();
 
-        System.out.println(c.registerActivity(title,description,deadLine,priorityOption,typeOption));
+        System.out.println(c.registerActivity(title, description, deadLine, priorityOption, typeOption));
     }
 
-    public void undoLastAction(){
-        System.out.println(c.undoLasAction());
+    public void removeActivity() {
+        System.out.println("Please, type in the title of the activity you want to remove:");
+        String title = sc.nextLine();
+
+        try {
+            String message = c.removeActivity(title);
+            System.out.println(message);
+        } catch (StackException | QueueException e) {
+            System.out.println("An error occurred while removing the activity: " + e.getMessage());
+        }
     }
 
-    public Calendar readDate(String message){
+    public Calendar readDate(String message) {
         Calendar calendarTime = Calendar.getInstance();
         format.setLenient(false);
 
@@ -98,7 +112,7 @@ public class Main {
         boolean validDate = false;
 
         while (!validDate) {
-            System.out.print("\nThe date must follow the format: dd/mm/yyyy\n"+ message);
+            System.out.print("\nThe date must follow the format: dd/MM/yyyy\n" + message);
             date = sc.nextLine();
 
             try {
