@@ -82,4 +82,37 @@ public class Controller {
         return msg;
     }
 
+    public String modifyActivity(String title, String description, Calendar deadLine, int priorityOption, int typeOption) throws QueueException, StackException {
+        String msg = "";
+        Activity updateActivity = activitiesManager.getActivity(title);
+
+        if (updateActivity != null) {
+
+            updateActivity.setDescription(description);
+            updateActivity.setDeadLine(deadLine);
+            updateActivity.setPriority(priorityOption == 1);
+            updateActivity.setType(typeOption == 1 ? ActivityType.TASK : ActivityType.REMINDER);
+
+
+            msg = activitiesManager.modifyActivity(updateActivity);
+
+            stack.push(Actions.MODIFY);
+        } else {
+            msg = "Activity not found";
+        }
+
+        return msg;
+    }
+
+
+    public String viewActivitiesByDeadline() throws QueueException {
+        return activitiesManager.viewActivitiesByDeadline();
+    }
+
+
+
+
+
+
+
 }

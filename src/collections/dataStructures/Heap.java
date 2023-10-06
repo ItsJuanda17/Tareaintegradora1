@@ -84,6 +84,8 @@ public class Heap<T extends Comparable<T>> implements IHeap<T> {
         return sortedHeap;
     }
 
+  
+
     @Override
     public String toString(){
         StringBuilder msg = new StringBuilder();
@@ -94,5 +96,6 @@ public class Heap<T extends Comparable<T>> implements IHeap<T> {
         }
         return msg.toString();
     }
+
 
 }

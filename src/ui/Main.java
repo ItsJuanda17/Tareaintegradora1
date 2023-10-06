@@ -23,7 +23,7 @@ public class Main {
         this.format = new SimpleDateFormat("dd/MM/yyyy");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws QueueException {
         Main m = new Main();
         int option;
 
@@ -52,19 +52,19 @@ public class Main {
         }
     }
 
-    public void answerOption(int userOption) {
+    public void answerOption(int userOption) throws QueueException {
         switch (userOption) {
             case 1:
                 registerActivity();
                 break;
             case 2:
-
+                modifyActivity();
                 break;
             case 3:
                 removeActivity();
                 break;
             case 4:
-
+                viewActivities();
                 break;
             case 5:
                 undoLastAction();
@@ -133,4 +133,40 @@ public class Main {
 
         return calendarTime;
     }
+
+    public void modifyActivity() {
+        System.out.println("Please, type in the title of the activity you want to modify:");
+        String title = sc.nextLine();
+    
+        System.out.println("Please, type in the new activity description");
+        String description = sc.nextLine();
+    
+        Calendar deadLine = readDate("Please, type in the new activity deadline");
+    
+        System.out.println("Please, type (1) for priority or (2) for non-priority");
+        int priorityOption = sc.nextInt();
+    
+        System.out.println("Please, type (1) if it should be a task or (2) if it should be a reminder");
+        int typeOption = sc.nextInt();
+    
+        try {
+            String message = c.modifyActivity(title, description, deadLine, priorityOption, typeOption);
+            System.out.println(message);
+        } catch (StackException | QueueException e) {
+            System.out.println("An error occurred while modifying the activity: " + e.getMessage());
+        }
+
+        
+    }
+
+    public void viewActivities() throws QueueException {
+        String activitiesByDeadline = c.viewActivitiesByDeadline();
+        System.out.println(activitiesByDeadline);
+
+    }
+
+
+
+
 }
+

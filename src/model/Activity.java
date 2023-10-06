@@ -3,6 +3,8 @@ package model;
 
 import java.util.Calendar;
 
+import java.text.SimpleDateFormat;
+
 public class Activity implements Comparable<Activity> {
 
     private String title;
@@ -67,4 +69,19 @@ public class Activity implements Comparable<Activity> {
             return -1;
         }
     }
+
+    @Override
+    public String toString() {
+        String priorityStr = priority ? "Priority" : "Non-priority";
+        String typeStr = type == ActivityType.TASK ? "Task" : "Reminder";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        return "Title: " + title + "\n" +
+                "Description: " + description + "\n" +
+                "Deadline: " + dateFormat.format(deadLine.getTime()) + "\n" +
+                "Priority: " + priorityStr + "\n" +
+                "Type: " + typeStr;
+    }
+
+
 }

@@ -1,5 +1,8 @@
 package model;
 
+import java.util.Calendar;
+import java.util.Comparator;
+
 import collections.dataStructures.HashTable;
 import collections.dataStructures.PriorityQueue;
 import collections.dataStructures.Queue;
@@ -64,5 +67,55 @@ public class ActivitiesManager {
     public boolean containsActivity(String title) {
         return activities.contains(title);
     }
+
+    public String modifyActivity(Activity updatedActivity) throws QueueException {
+        String title = updatedActivity.getTitle();
+        if (activities.contains(title)) {
+
+            Activity existingActivity = activities.get(title);
+            existingActivity.setDescription(updatedActivity.getDescription());
+            existingActivity.setDeadLine(updatedActivity.getDeadLine());
+            existingActivity.setPriority(updatedActivity.getPriority());
+            existingActivity.setType(updatedActivity.getType());
+            if (existingActivity.getPriority()) {
+                PriorActivities.insert(existingActivity);
+            } else {
+                NonPriorActivities.enqueue(existingActivity);
+            }
+            return "The activity was modified successfully";
+        } else {
+            return "Activity not found";
+        }
+    }
+
+
+
+
+    public String viewActivitiesByDeadline() throws QueueException {
+        StringBuilder sb = new StringBuilder();
+        PriorityQueue<Activity> sortedPriorityQueue = new PriorityQueue<>();
+
+
+        while (!PriorActivities.isEmpty()) {
+            sortedPriorityQueue.insert(PriorActivities.extractRoot());
+        }
+
+
+        while (!NonPriorActivities.isEmpty()) {
+            sortedPriorityQueue.insert(NonPriorActivities.dequeue());
+        }
+
+        sb.append("Activities by Deadline:\n");
+
+
+        while (!sortedPriorityQueue.isEmpty()) {
+            Activity activity = sortedPriorityQueue.extractRoot();
+            sb.append(activity.toString()).append("\n");
+        }
+
+        return sb.toString();
+    }
+
+
 
 }

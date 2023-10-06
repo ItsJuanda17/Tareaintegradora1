@@ -1,6 +1,7 @@
 package collections.dataStructures;
 
 import collections.interfaces.IPriorityQueue;
+import exception.QueueException;
 
 // PriorityQueue extiende de Heap
 public class PriorityQueue<T extends Comparable<T> > extends Heap<T> implements IPriorityQueue<T> {
@@ -23,7 +24,10 @@ public class PriorityQueue<T extends Comparable<T> > extends Heap<T> implements 
     }
 
     @Override
-    public T extractRoot(){
+    public T extractRoot() throws QueueException {
+        if (isEmpty()) {
+            throw new QueueException("Queue is empty"); // Lanza una excepción o maneja el error apropiadamente
+        }
         T root = heap[0];
         heap[0] = heap[size-1];
         heap[size-1] = null;
@@ -48,4 +52,11 @@ public class PriorityQueue<T extends Comparable<T> > extends Heap<T> implements 
     private boolean isFull() {
         return size == heap.length - 1;
     }
+
+
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
 }

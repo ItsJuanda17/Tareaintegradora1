@@ -16,6 +16,7 @@ public class ControllerTest {
         controller = new Controller();
     }
 
+
     public void setUp2(){
         Calendar taskDeadLine = Calendar.getInstance();
         taskDeadLine.set(Calendar.YEAR, 2023);
@@ -33,6 +34,7 @@ public class ControllerTest {
         }
     }
 
+
     @Test
     public void testRegisterActivitySuccess(){
         // setup
@@ -44,6 +46,7 @@ public class ControllerTest {
         //assert
         assertEquals("The activity was registered successfully", message);
     }
+
 
     @Test
     public void testRegisterActivityAlreadyExist(){
@@ -80,6 +83,7 @@ public class ControllerTest {
         // assert
         assertEquals("The add activity action was undone successfully", message);
     }
+
 
     @Test
     public void testUndoLastActionModify(){
@@ -118,6 +122,7 @@ public class ControllerTest {
         assertFalse(exceptionThrown);
         assertEquals("The remove activity action was undone successfully", message);
     }
+
 
     @Test
     public void testUndoMultipleActions(){
