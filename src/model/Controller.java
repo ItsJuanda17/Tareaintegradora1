@@ -67,13 +67,9 @@ public class Controller {
         Activity removedActivity = activitiesManager.getActivity(title);
 
         if (removedActivity != null) {
-
             originalActivity = removedActivity;
-
             activitiesManager.removeActivity(removedActivity);
-
             stack.push(Actions.REMOVE);
-
             msg = "The activity was removed successfully";
         } else {
             msg = "Activity not found";
