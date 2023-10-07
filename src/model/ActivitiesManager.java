@@ -42,23 +42,30 @@ public class ActivitiesManager {
     }
 
     public void removeActivity(Activity activity) throws QueueException {
-
         if (activity == null) {
             return;
         }
         String title = activity.getTitle();
 
-        if (!activities.contains(title)) {
-            return;
+        PriorityQueue<Activity> tempPriorActivities = new PriorityQueue<>();
+        while (!PriorActivities.isEmpty()) {
+            Activity current = PriorActivities.extractRoot();
+            if (!current.getTitle().equals(title)) {
+                tempPriorActivities.insert(current);
+            }
         }
-        activities.remove(title);
-        if (activity.getPriority()) {
-            PriorActivities.extractRoot();
-        } else {
+        PriorActivities = tempPriorActivities;
 
-            NonPriorActivities.dequeue();
+        Queue<Activity> tempNonPriorActivities = new Queue<>();
+        while (!NonPriorActivities.isEmpty()) {
+            Activity current = NonPriorActivities.dequeue();
+            if (!current.getTitle().equals(title)) {
+                tempNonPriorActivities.enqueue(current);
+            }
         }
+        NonPriorActivities = tempNonPriorActivities;
     }
+
 
     public Activity getActivity(String title) {
         return activities.get(title);
