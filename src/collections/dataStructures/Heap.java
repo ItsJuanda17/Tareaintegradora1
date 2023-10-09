@@ -84,14 +84,17 @@ public class Heap<T extends Comparable<T>> implements IHeap<T> {
         return sortedHeap;
     }
 
-  
 
     @Override
     public String toString(){
         StringBuilder msg = new StringBuilder();
-        for (T t : heap) {
-            if (t != null) {
-                msg.append(t).append(" ");
+        if(size == 0) {
+            msg.append("None");
+        }else{
+            for (T t : heap) {
+                if (t != null) {
+                    msg.append("\t-").append(t).append("\n");
+                }
             }
         }
         return msg.toString();

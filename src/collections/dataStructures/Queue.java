@@ -57,16 +57,15 @@ public class Queue<E> implements IQueue<E> {
     }
 
     public String printQueue(){
-        Node<E> current = front;
-        StringBuilder str = new StringBuilder("[");
-        while (current != null) {
-            str.append(current.getItem()).append(", ");
-            current = current.getNext();
-        }
-        if(str.toString().equals("[")){
-            str.append(" ]");
-        }else{
-            str.append("\b\b]");
+        StringBuilder str = new StringBuilder();
+        if(isEmpty()){
+            str.append("None");
+        }else {
+            Node<E> current = front;
+            while (current != null) {
+                str.append("\t-").append(current.getItem()).append("\n");
+                current = current.getNext();
+            }
         }
         return str.toString();
     }

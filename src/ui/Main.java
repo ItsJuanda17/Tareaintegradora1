@@ -39,9 +39,9 @@ public class Main {
             System.out.print("\nApplication menu, type in an option\n" +
                     "(1) Register activity\n" +
                     "(2) Modify activity info\n" +
-                    "(3) Delete activity " +
-                    "(4) View activities list" +
-                    "(5) Undo last action" +
+                    "(3) Delete activity\n" +
+                    "(4) View activities list\n" +
+                    "(5) Undo last action\n" +
                     "(0) Exit\n:");
             input = sc.nextInt();
             sc.nextLine();

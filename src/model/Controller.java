@@ -78,7 +78,7 @@ public class Controller {
 
 
     public String viewActivitiesByDeadline() throws QueueException {
-        return activitiesManager.viewActivitiesByDeadline();
+        return activitiesManager.toString();
     }
 
     public String undoLastAction(){

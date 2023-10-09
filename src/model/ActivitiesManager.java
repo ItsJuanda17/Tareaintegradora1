@@ -85,28 +85,13 @@ public class ActivitiesManager {
         }
     }
 
-    public String viewActivitiesByDeadline() throws QueueException {
+    @Override
+    public String toString(){
         StringBuilder sb = new StringBuilder();
-        PriorityQueue<Activity> sortedPriorityQueue = new PriorityQueue<>();
-
-
-        while (!PriorActivities.isEmpty()) {
-            sortedPriorityQueue.insert(PriorActivities.extractRoot());
-        }
-
-
-        while (!NonPriorActivities.isEmpty()) {
-            sortedPriorityQueue.insert(NonPriorActivities.dequeue());
-        }
-
-        sb.append("Activities by Deadline:\n");
-
-
-        while (!sortedPriorityQueue.isEmpty()) {
-            Activity activity = sortedPriorityQueue.extractRoot();
-            sb.append(activity.toString()).append("\n");
-        }
-
+        sb.append("Prior Activities:\n");
+        sb.append(PriorActivities.heapSort().toString()).append("\n");
+        sb.append("Non Prior Activities:\n");
+        sb.append(NonPriorActivities.toString()).append("\n");
         return sb.toString();
     }
 

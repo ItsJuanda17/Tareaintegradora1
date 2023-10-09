@@ -207,7 +207,7 @@ public class ActivityManagerTest {
         activitiesManager.addActivity(task);
 
 
-        String result = activitiesManager.viewActivitiesByDeadline();
+        String result = activitiesManager.toString();
 
 
         assertTrue(result.contains("Title: task"));
