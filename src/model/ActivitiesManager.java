@@ -1,8 +1,5 @@
 package model;
 
-import java.util.Calendar;
-import java.util.Comparator;
-
 import collections.dataStructures.HashTable;
 import collections.dataStructures.PriorityQueue;
 import collections.dataStructures.Queue;
@@ -87,9 +84,6 @@ public class ActivitiesManager {
             return "Activity not found";
         }
     }
-
-
-
 
     public String viewActivitiesByDeadline() throws QueueException {
         StringBuilder sb = new StringBuilder();

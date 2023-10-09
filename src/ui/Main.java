@@ -108,32 +108,6 @@ public class Main {
         }
     }
 
-    public void undoLastAction() {
-        System.out.println(c.undoLasAction());
-    }
-
-    public Calendar readDate(String message) {
-        Calendar calendarTime = Calendar.getInstance();
-        format.setLenient(false);
-
-        String date = "";
-        boolean validDate = false;
-
-        while (!validDate) {
-            System.out.print("\nThe date must follow the format: dd/MM/yyyy\n" + message);
-            date = sc.nextLine();
-
-            try {
-                calendarTime.setTime(format.parse(date));
-                validDate = true;
-            } catch (ParseException error) {
-                System.out.println("Invalid date format. Please try again.");
-            }
-        }
-
-        return calendarTime;
-    }
-
     public void modifyActivity() {
         System.out.println("Please, type in the title of the activity you want to modify:");
         String title = sc.nextLine();
@@ -165,6 +139,31 @@ public class Main {
 
     }
 
+    public void undoLastAction() {
+        System.out.println(c.undoLastAction());
+    }
+
+    public Calendar readDate(String message) {
+        Calendar calendarTime = Calendar.getInstance();
+        format.setLenient(false);
+
+        String date = "";
+        boolean validDate = false;
+
+        while (!validDate) {
+            System.out.print("\nThe date must follow the format: dd/MM/yyyy\n" + message);
+            date = sc.nextLine();
+
+            try {
+                calendarTime.setTime(format.parse(date));
+                validDate = true;
+            } catch (ParseException error) {
+                System.out.println("Invalid date format. Please try again.");
+            }
+        }
+
+        return calendarTime;
+    }
 
 
 
