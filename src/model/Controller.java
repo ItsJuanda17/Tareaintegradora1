@@ -6,6 +6,7 @@ import exception.StackException;
 
 import java.util.Calendar;
 
+
 public class Controller {
 
     private Stack<Actions> stack;
@@ -82,30 +83,20 @@ public class Controller {
         return msg;
     }
 
-    public String modifyActivity(String title, String description, Calendar deadLine, int priorityOption, int typeOption) throws QueueException, StackException {
-        String msg = "";
-        Activity updateActivity = activitiesManager.getActivity(title);
+    public String modifyActivity(String title, String newDescription, Calendar newDeadline, int priorityOption, int typeOption) throws QueueException {
+        boolean newPriority = (priorityOption == 1);
+        ActivityType newType = (typeOption == 1) ? ActivityType.TASK : ActivityType.REMINDER;
+        Activity updatedActivity = new Activity(title, newDescription, newDeadline, newPriority, newType);
+        String msg = activitiesManager.modifyActivity(updatedActivity);
 
-        if (updateActivity != null) {
-
-            updateActivity.setDescription(description);
-            updateActivity.setDeadLine(deadLine);
-            updateActivity.setPriority(priorityOption == 1);
-            updateActivity.setType(typeOption == 1 ? ActivityType.TASK : ActivityType.REMINDER);
-
-
-            msg = activitiesManager.modifyActivity(updateActivity);
-
-            stack.push(Actions.MODIFY);
-        } else {
-            msg = "Activity not found";
-        }
 
         return msg;
     }
 
 
-    public String viewActivitiesByDeadline() throws QueueException {
+
+
+    public String viewActivitiesByDeadlineA() throws QueueException {
         return activitiesManager.viewActivitiesByDeadline();
     }
 

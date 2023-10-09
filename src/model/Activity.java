@@ -21,6 +21,8 @@ public class Activity implements Comparable<Activity> {
         this.type = type;
     }
 
+
+
     public String getTitle() {
         return title;
     }

@@ -71,17 +71,18 @@ public class ActivitiesManager {
     public String modifyActivity(Activity updatedActivity) throws QueueException {
         String title = updatedActivity.getTitle();
         if (activities.contains(title)) {
-
             Activity existingActivity = activities.get(title);
             existingActivity.setDescription(updatedActivity.getDescription());
             existingActivity.setDeadLine(updatedActivity.getDeadLine());
             existingActivity.setPriority(updatedActivity.getPriority());
             existingActivity.setType(updatedActivity.getType());
+
             if (existingActivity.getPriority()) {
                 PriorActivities.insert(existingActivity);
             } else {
                 NonPriorActivities.enqueue(existingActivity);
             }
+
             return "The activity was modified successfully";
         } else {
             return "Activity not found";
@@ -100,21 +101,18 @@ public class ActivitiesManager {
             sortedPriorityQueue.insert(PriorActivities.extractRoot());
         }
 
-
         while (!NonPriorActivities.isEmpty()) {
             sortedPriorityQueue.insert(NonPriorActivities.dequeue());
         }
-
         sb.append("Activities by Deadline:\n");
-
 
         while (!sortedPriorityQueue.isEmpty()) {
             Activity activity = sortedPriorityQueue.extractRoot();
             sb.append(activity.toString()).append("\n");
         }
-
         return sb.toString();
     }
+
 
 
 

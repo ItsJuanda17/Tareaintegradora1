@@ -140,9 +140,22 @@ public class Main {
     
         System.out.println("Please, type in the new activity description");
         String description = sc.nextLine();
-    
-        Calendar deadLine = readDate("Please, type in the new activity deadline");
-    
+
+
+        System.out.println("Please, type in the new activity deadline in the format dd/MM/yyyy:");
+        String deadlineStr = sc.nextLine();
+
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar newDeadline = Calendar.getInstance();
+        try {
+            newDeadline.setTime(dateFormat.parse(deadlineStr));
+        } catch (ParseException e) {
+            System.out.println("Invalid date format. Please enter the date in the format dd/MM/yyyy.");
+            return;
+        }
+
+
         System.out.println("Please, type (1) for priority or (2) for non-priority");
         int priorityOption = sc.nextInt();
     
@@ -150,9 +163,9 @@ public class Main {
         int typeOption = sc.nextInt();
     
         try {
-            String message = c.modifyActivity(title, description, deadLine, priorityOption, typeOption);
+            String message = c.modifyActivity(title, description, newDeadline, priorityOption, typeOption);
             System.out.println(message);
-        } catch (StackException | QueueException e) {
+        } catch (QueueException e) {
             System.out.println("An error occurred while modifying the activity: " + e.getMessage());
         }
 
@@ -160,7 +173,7 @@ public class Main {
     }
 
     public void viewActivities() throws QueueException {
-        String activitiesByDeadline = c.viewActivitiesByDeadline();
+        String activitiesByDeadline = c.viewActivitiesByDeadlineA();
         System.out.println(activitiesByDeadline);
 
     }
