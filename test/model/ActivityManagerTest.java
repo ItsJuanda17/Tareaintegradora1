@@ -142,6 +142,50 @@ public class ActivityManagerTest {
         assertEquals(activity, back);
     }
 
+  void testRemoveActivityFromEmptyManager() {
+        // Arrange
+        Activity activity = new Activity("task", "description", null, true, ActivityType.TASK);
+
+        // Act
+        assertDoesNotThrow(() -> activitiesManager.removeActivity(activity));
+
+        // Assert
+        assertFalse(activitiesManager.containsActivity("task"));
+    }
+
+    @Test
+    void testRemoveActivityThatDoesNotExist() throws QueueException {
+    
+        Activity existingActivity = new Activity("existing", "description", null, true, ActivityType.TASK);
+        Activity nonExistingActivity = new Activity("non-existing", "description", null, true, ActivityType.TASK);
+
+        activitiesManager.addActivity(existingActivity);
+
+        
+        assertDoesNotThrow(() -> activitiesManager.removeActivity(nonExistingActivity));
+
+        
+        assertTrue(activitiesManager.containsActivity("existing"));
+        assertFalse(activitiesManager.containsActivity("non-existing"));
+    }
+
+    @Test
+    void testRemoveActivityFromManager() throws QueueException {
+        // Arrange
+        Activity activity = new Activity("task", "description", null, true, ActivityType.TASK);
+
+        activitiesManager.addActivity(activity);
+
+        
+        assertDoesNotThrow(() -> activitiesManager.removeActivity(activity));
+
+    
+        assertFalse(activitiesManager.containsActivity("task"));
+        assertNull(activitiesManager.getActivity("task"));
+    }
+    
+    
+
     @Test
     public void testGetActivityNotExist(){
         // setup

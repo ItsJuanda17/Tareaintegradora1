@@ -70,6 +70,29 @@ public class ControllerTest {
         assertEquals("The activity already exists", message);
     }
 
+
+     @Test
+    public void testRemoveActivitySuccess() throws StackException, QueueException {
+        // Arrange
+        controller.registerActivity("task3", "description", Calendar.getInstance(), 1, 1);
+
+        // Act
+        String message = controller.removeActivity("task3");
+
+        // Assert
+        assertEquals("The activity was removed successfully", message);
+    }
+
+    @Test
+    public void testRemoveActivityNotFound() throws StackException, QueueException {
+        // Act
+        String message = controller.removeActivity("non-existing");
+
+        // Assert
+        assertEquals("Activity not found", message);
+    }
+
+
     @Test
     public void testUndoLastActionWhenEmpty(){
         // setup
