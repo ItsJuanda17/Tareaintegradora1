@@ -1,8 +1,5 @@
 package model;
 
-import java.util.Calendar;
-import java.util.Comparator;
-
 import collections.dataStructures.HashTable;
 import collections.dataStructures.PriorityQueue;
 import collections.dataStructures.Queue;
@@ -11,54 +8,62 @@ import exception.QueueException;
 public class ActivitiesManager {
 
     private HashTable<String, Activity> activities;
-    private PriorityQueue<Activity> PriorActivities;
-    private Queue<Activity> NonPriorActivities;
+    private PriorityQueue<Activity> priorActivities;
+    private Queue<Activity> nonPriorActivities;
 
     public HashTable<String, Activity> getActivities() {
         return activities;
     }
 
     public PriorityQueue<Activity> getPriorActivities() {
-        return PriorActivities;
+        return priorActivities;
     }
 
     public Queue<Activity> getNonPriorActivities() {
-        return NonPriorActivities;
+        return nonPriorActivities;
     }
 
     public ActivitiesManager() {
         this.activities = new HashTable<>();
-        this.PriorActivities = new PriorityQueue<>();
-        this.NonPriorActivities = new Queue<>();
+        this.priorActivities = new PriorityQueue<>();
+        this.nonPriorActivities = new Queue<>();
     }
 
     public void addActivity(Activity activity) throws QueueException {
         activities.put(activity.getTitle(), activity);
         if (activity.getPriority()) {
-            PriorActivities.insert(activity);
+            priorActivities.insert(activity);
         } else {
-            NonPriorActivities.enqueue(activity);
+            nonPriorActivities.enqueue(activity);
         }
     }
 
     public void removeActivity(Activity activity) throws QueueException {
-
         if (activity == null) {
-            return;
+            throw new QueueException("The activity does not exist");
         }
         String title = activity.getTitle();
-
-        if (!activities.contains(title)) {
-            return;
-        }
         activities.remove(title);
-        if (activity.getPriority()) {
-            PriorActivities.extractRoot();
-        } else {
 
-            NonPriorActivities.dequeue();
+        PriorityQueue<Activity> tempPriorActivities = new PriorityQueue<>();
+        while (!priorActivities.isEmpty()) {
+            Activity current = priorActivities.extractRoot();
+            if (!current.getTitle().equals(title)) {
+                tempPriorActivities.insert(current);
+            }
         }
+        priorActivities = tempPriorActivities;
+
+        Queue<Activity> tempNonPriorActivities = new Queue<>();
+        while (!nonPriorActivities.isEmpty()) {
+            Activity current = nonPriorActivities.dequeue();
+            if (!current.getTitle().equals(title)) {
+                tempNonPriorActivities.enqueue(current);
+            }
+        }
+        nonPriorActivities = tempNonPriorActivities;
     }
+
 
     public Activity getActivity(String title) {
         return activities.get(title);
@@ -68,51 +73,22 @@ public class ActivitiesManager {
         return activities.contains(title);
     }
 
-    public String modifyActivity(Activity updatedActivity) throws QueueException {
+    public void modifyActivity(Activity updatedActivity) throws QueueException {
         String title = updatedActivity.getTitle();
-        if (activities.contains(title)) {
-            Activity existingActivity = activities.get(title);
-            existingActivity.setDescription(updatedActivity.getDescription());
-            existingActivity.setDeadLine(updatedActivity.getDeadLine());
-            existingActivity.setPriority(updatedActivity.getPriority());
-            existingActivity.setType(updatedActivity.getType());
-
-            if (existingActivity.getPriority()) {
-                PriorActivities.insert(existingActivity);
-            } else {
-                NonPriorActivities.enqueue(existingActivity);
-            }
-
-            return "The activity was modified successfully";
-        } else {
-            return "Activity not found";
-        }
+        Activity existingActivity = activities.get(title);
+        removeActivity(existingActivity);
+        addActivity(updatedActivity);
     }
 
-
-
-
-    public String viewActivitiesByDeadline() throws QueueException {
+    @Override
+    public String toString(){
         StringBuilder sb = new StringBuilder();
-        PriorityQueue<Activity> sortedPriorityQueue = new PriorityQueue<>();
-
-
-        while (!PriorActivities.isEmpty()) {
-            sortedPriorityQueue.insert(PriorActivities.extractRoot());
-        }
-
-        while (!NonPriorActivities.isEmpty()) {
-            sortedPriorityQueue.insert(NonPriorActivities.dequeue());
-        }
-        sb.append("Activities by Deadline:\n");
-
-        while (!sortedPriorityQueue.isEmpty()) {
-            Activity activity = sortedPriorityQueue.extractRoot();
-            sb.append(activity.toString()).append("\n");
-        }
+        sb.append("Prior Activities:\n");
+        sb.append(priorActivities).append("\n");
+        sb.append("Non Prior Activities:\n");
+        sb.append(nonPriorActivities).append("\n");
         return sb.toString();
     }
-
 
 
 

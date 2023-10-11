@@ -39,9 +39,9 @@ public class Main {
             System.out.print("\nApplication menu, type in an option\n" +
                     "(1) Register activity\n" +
                     "(2) Modify activity info\n" +
-                    "(3) Delete activity " +
-                    "(4) View activities list" +
-                    "(5) Undo last action" +
+                    "(3) Delete activity\n" +
+                    "(4) View activities list\n" +
+                    "(5) Undo last action\n" +
                     "(0) Exit\n:");
             input = sc.nextInt();
             sc.nextLine();
@@ -108,8 +108,39 @@ public class Main {
         }
     }
 
+    public void modifyActivity() {
+        System.out.println("Please, type in the title of the activity you want to modify:");
+        String title = sc.nextLine();
+
+        System.out.println("Please, type in the new activity description");
+        String description = sc.nextLine();
+
+        Calendar deadLine = readDate("Please, type in the new activity deadline");
+
+        System.out.println("Please, type (1) for priority or (2) for non-priority");
+        int priorityOption = sc.nextInt();
+
+        System.out.println("Please, type (1) if it should be a task or (2) if it should be a reminder");
+        int typeOption = sc.nextInt();
+
+        try {
+            String message = c.modifyActivity(title, description, deadLine, priorityOption, typeOption);
+            System.out.println(message);
+        } catch (StackException | QueueException e) {
+            System.out.println("An error occurred while modifying the activity: " + e.getMessage());
+        }
+
+
+    }
+
+    public void viewActivities() throws QueueException {
+        String activitiesByDeadline = c.viewActivitiesByDeadline();
+        System.out.println(activitiesByDeadline);
+
+    }
+
     public void undoLastAction() {
-        System.out.println(c.undoLasAction());
+        System.out.println(c.undoLastAction());
     }
 
     public Calendar readDate(String message) {
@@ -133,51 +164,6 @@ public class Main {
 
         return calendarTime;
     }
-
-    public void modifyActivity() {
-        System.out.println("Please, type in the title of the activity you want to modify:");
-        String title = sc.nextLine();
-    
-        System.out.println("Please, type in the new activity description");
-        String description = sc.nextLine();
-
-
-        System.out.println("Please, type in the new activity deadline in the format dd/MM/yyyy:");
-        String deadlineStr = sc.nextLine();
-
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Calendar newDeadline = Calendar.getInstance();
-        try {
-            newDeadline.setTime(dateFormat.parse(deadlineStr));
-        } catch (ParseException e) {
-            System.out.println("Invalid date format. Please enter the date in the format dd/MM/yyyy.");
-            return;
-        }
-
-
-        System.out.println("Please, type (1) for priority or (2) for non-priority");
-        int priorityOption = sc.nextInt();
-    
-        System.out.println("Please, type (1) if it should be a task or (2) if it should be a reminder");
-        int typeOption = sc.nextInt();
-    
-        try {
-            String message = c.modifyActivity(title, description, newDeadline, priorityOption, typeOption);
-            System.out.println(message);
-        } catch (QueueException e) {
-            System.out.println("An error occurred while modifying the activity: " + e.getMessage());
-        }
-
-        
-    }
-
-    public void viewActivities() throws QueueException {
-        String activitiesByDeadline = c.viewActivitiesByDeadlineA();
-        System.out.println(activitiesByDeadline);
-
-    }
-
 
 
 

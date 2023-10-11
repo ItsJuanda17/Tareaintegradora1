@@ -16,21 +16,31 @@ public class ControllerTest {
         controller = new Controller();
     }
 
-
     public void setUp2(){
+        controller = new Controller();
+
         Calendar taskDeadLine = Calendar.getInstance();
         taskDeadLine.set(Calendar.YEAR, 2023);
         taskDeadLine.set(Calendar.MONTH, Calendar.OCTOBER);
         taskDeadLine.set(Calendar.DAY_OF_MONTH, 8);
 
-        controller.registerActivity("task", "description", taskDeadLine, 1, 1);
-        controller.registerActivity("task2", "description", taskDeadLine, 1, 1);
-        controller.modifyActivity("task2", "task3", "description", Calendar.getInstance(), 2, 2);
+        Calendar newDeadline = Calendar.getInstance();
+        newDeadline.set(Calendar.YEAR, 2023);
+        newDeadline.set(Calendar.MONTH, Calendar.SEPTEMBER);
+        newDeadline.set(Calendar.DAY_OF_MONTH, 9);
+
+        System.out.println("taskDeadLine: " + taskDeadLine.getTime());
+        System.out.println("newDeadline: " + newDeadline.getTime());
 
         try {
+            controller.registerActivity("task", "description", taskDeadLine, 1, 1);
+
+            controller.registerActivity("task2", "description", taskDeadLine, 1, 1);
+            controller.modifyActivity("task2", "description2", newDeadline, 2, 2);
+
             controller.removeActivity("task2");
         } catch (StackException | QueueException e) {
-           e.getStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -66,7 +76,7 @@ public class ControllerTest {
         setUp1();
 
         // act
-        String message = controller.undoLasAction();
+        String message = controller.undoLastAction();
 
         // assert
         assertEquals("There is no action to undo", message);
@@ -78,10 +88,11 @@ public class ControllerTest {
         setUp1();
 
         controller.registerActivity("task3", "description", Calendar.getInstance(), 1, 1);
-        String message = controller.undoLasAction();
+        String message = controller.undoLastAction();
 
         // assert
-        assertEquals("The add activity action was undone successfully", message);
+        assertEquals("The add action was undone successfully", message);
+        assertFalse(controller.getActivitiesManager().containsActivity("task3"));
     }
 
 
@@ -92,16 +103,25 @@ public class ControllerTest {
         boolean exceptionThrown = false;
 
         // act
-        controller.registerActivity("task3", "description", Calendar.getInstance(), 1, 1);
+        Calendar taskDeadLine = Calendar.getInstance();
+        taskDeadLine.set(Calendar.YEAR, 2023);
+        taskDeadLine.set(Calendar.MONTH, Calendar.OCTOBER);
+        taskDeadLine.set(Calendar.DAY_OF_MONTH, 8);
+        controller.registerActivity("task3", "description", taskDeadLine, 1, 1);
         try {
-            controller.modifyActivity("task3", "task4", "description2", Calendar.getInstance(), 2, 2);
+            controller.modifyActivity("task3", "description2", Calendar.getInstance(), 2, 2);
         } catch (StackException | QueueException e) {
             exceptionThrown = true;
         }
-        String message = controller.undoLasAction();
+        String message = controller.undoLastAction();
 
         assertFalse(exceptionThrown);
-        assertEquals("The modify activity action action was undone successfully", message);
+        assertEquals("The modify action was undone successfully", message);
+        assertEquals("description", controller.getActivitiesManager().getActivity("task3").getDescription());
+        assertEquals(taskDeadLine, controller.getActivitiesManager().getActivity("task3").getDeadLine());
+        assertTrue(controller.getActivitiesManager().getActivity("task3").getPriority());
+        assertEquals(ActivityType.TASK, controller.getActivitiesManager().getActivity("task3").getType());
+
     }
 
     @Test
@@ -117,10 +137,11 @@ public class ControllerTest {
         } catch (StackException | QueueException e) {
             exceptionThrown = true;
         }
-        String message = controller.undoLasAction();
+        String message = controller.undoLastAction();
 
         assertFalse(exceptionThrown);
-        assertEquals("The remove activity action was undone successfully", message);
+        assertEquals("The remove action was undone successfully", message);
+        assertTrue(controller.getActivitiesManager().containsActivity("task3"));
     }
 
 
@@ -130,16 +151,16 @@ public class ControllerTest {
         setUp2();
 
         // act
-        String message = controller.undoLasAction();
-        String message2 = controller.undoLasAction();
-        String message3 = controller.undoLasAction();
-        String message4 = controller.undoLasAction();
-        String message5 = controller.undoLasAction();
+        String message = controller.undoLastAction();
+        String message2 = controller.undoLastAction();
+        String message3 = controller.undoLastAction();
+        String message4 = controller.undoLastAction();
+        String message5 = controller.undoLastAction();
 
-        assertEquals("The remove activity action was undone successfully", message);
-        assertEquals("The modify activity action action was undone successfully", message2);
-        assertEquals("The add activity action was undone successfully", message3);
-        assertEquals("The add activity action was undone successfully", message4);
+        assertEquals("The remove action was undone successfully", message);
+        assertEquals("The modify action was undone successfully", message2);
+        assertEquals("The add action was undone successfully", message3);
+        assertEquals("The add action was undone successfully", message4);
         assertEquals("There is no action to undo", message5);
     }
 

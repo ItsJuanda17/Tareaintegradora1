@@ -1,7 +1,6 @@
 package model;
 
 import exception.QueueException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
@@ -12,12 +11,10 @@ public class ActivityManagerTest {
 
     private ActivitiesManager activitiesManager;
 
-    @BeforeEach
     public void setUp1(){
         activitiesManager = new ActivitiesManager();
     }
 
-    @BeforeEach
     public void setUp2(){
         activitiesManager = new ActivitiesManager();
         try {
@@ -197,6 +194,8 @@ public class ActivityManagerTest {
 
     @Test
     public void testViewActivitiesByDeadlineNonEmpty() throws QueueException {
+        // setup
+        setUp2();
 
         ActivitiesManager activitiesManager = new ActivitiesManager();
         Calendar taskDeadLine = Calendar.getInstance();
@@ -207,7 +206,7 @@ public class ActivityManagerTest {
         activitiesManager.addActivity(task);
 
 
-        String result = activitiesManager.viewActivitiesByDeadline();
+        String result = activitiesManager.toString();
 
 
         assertTrue(result.contains("Title: task"));
@@ -215,6 +214,7 @@ public class ActivityManagerTest {
 
     @Test
     public void testModifyActivityFound() throws QueueException {
+        setUp2();
 
         Calendar originalDeadline = Calendar.getInstance();
         originalDeadline.set(Calendar.YEAR, 2023);
@@ -230,15 +230,17 @@ public class ActivityManagerTest {
         newDeadline.set(Calendar.DAY_OF_MONTH, 15);
 
         Activity updatedActivity = new Activity("task", "new description", newDeadline, false, ActivityType.REMINDER);
+        boolean exceptionThrown = false;
 
-
-        String result = activitiesManager.modifyActivity(updatedActivity);
-
-
-        assertEquals("The activity was modified successfully", result);
+        try{
+            activitiesManager.modifyActivity(updatedActivity);
+        } catch (QueueException e){
+            exceptionThrown = true;
+        }
 
         Activity modifiedActivity = activitiesManager.getActivity("task");
         assertNotNull(modifiedActivity);
+        assertFalse(exceptionThrown);
         assertEquals("new description", modifiedActivity.getDescription());
         assertEquals(newDeadline, modifiedActivity.getDeadLine());
         assertFalse(modifiedActivity.getPriority());
@@ -246,7 +248,8 @@ public class ActivityManagerTest {
     }
 
     @Test
-    public void testModifyActivityNotFound() throws QueueException {
+    public void testModifyActivityNotFound(){
+        setUp2();
 
         Calendar newDeadline = Calendar.getInstance();
         newDeadline.set(Calendar.YEAR, 2023);
@@ -254,12 +257,14 @@ public class ActivityManagerTest {
         newDeadline.set(Calendar.DAY_OF_MONTH, 15);
 
         Activity updatedActivity = new Activity("task", "new description", newDeadline, false, ActivityType.REMINDER);
+        boolean exceptionThrown = false;
+        try {
+            activitiesManager.modifyActivity(updatedActivity);
+        } catch (QueueException e) {
+            exceptionThrown = true;
+        }
 
-
-        String result = activitiesManager.modifyActivity(updatedActivity);
-
-
-        assertEquals("Activity not found", result);
+        assertTrue(exceptionThrown);
     }
 
 

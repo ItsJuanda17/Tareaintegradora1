@@ -53,8 +53,6 @@ public class PriorityQueue<T extends Comparable<T> > extends Heap<T> implements 
         return size == heap.length - 1;
     }
 
-
-
     public boolean isEmpty() {
         return size == 0;
     }
