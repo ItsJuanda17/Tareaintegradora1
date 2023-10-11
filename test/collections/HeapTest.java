@@ -1,3 +1,5 @@
+package collections;
+
 import collections.dataStructures.Heap;
 import collections.interfaces.IHeap;
 import org.junit.jupiter.api.BeforeEach;

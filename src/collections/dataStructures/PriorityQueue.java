@@ -24,17 +24,18 @@ public class PriorityQueue<T extends Comparable<T> > extends Heap<T> implements 
     }
 
     @Override
-    public T extractRoot() throws QueueException {
+    public T extractRoot() {
         if (isEmpty()) {
-            throw new QueueException("Queue is empty"); // Lanza una excepción o maneja el error apropiadamente
+            return null;
         }
         T root = heap[0];
-        heap[0] = heap[size-1];
-        heap[size-1] = null;
+        heap[0] = heap[size - 1];
+        heap[size - 1] = null;
         size--;
         heapify(0);
         return root;
     }
+
 
     @Override
     public void setKey(int i, T key){

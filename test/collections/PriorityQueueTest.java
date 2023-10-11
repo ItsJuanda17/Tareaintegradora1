@@ -32,7 +32,7 @@ public class PriorityQueueTest {
     }
 
     @Test
-    void testResize() {
+    void testResize() throws QueueException {
         // Insert more elements than the initial capacity to trigger resizing
         for (int i = 1; i <= 20; i++) {
             priorityQueue.insert(i);
@@ -53,7 +53,7 @@ public class PriorityQueueTest {
     }
 
     @Test
-    void testSetKey() {
+    void testSetKey() throws QueueException {
         // Insert elements into the priority queue
         priorityQueue.insert(5);
         priorityQueue.insert(3);
