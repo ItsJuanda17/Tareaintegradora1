@@ -1,7 +1,7 @@
 package collections.dataStructures;
 
 import collections.interfaces.IPriorityQueue;
-import exception.QueueException;
+
 
 // PriorityQueue extiende de Heap
 public class PriorityQueue<T extends Comparable<T> > extends Heap<T> implements IPriorityQueue<T> {

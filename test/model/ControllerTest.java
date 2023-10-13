@@ -187,5 +187,37 @@ public class ControllerTest {
         assertEquals("There is no action to undo", message5);
     }
 
+    @Test
+    public void testModifyActivitySuccess() throws QueueException, StackException {
+
+        setUp1();
+
+        String registerResult = controller.registerActivity("task", "description", Calendar.getInstance(), 1, 1);
+        assertEquals("The activity was registered successfully", registerResult);
+
+
+        String modifyResult = controller.modifyActivity("task", "new description", Calendar.getInstance(), 2, 2);
+        assertEquals("The activity was modified successfully", modifyResult);
+
+
+        Activity modifiedActivity = controller.getActivitiesManager().getActivity("task");
+        assertEquals("new description", modifiedActivity.getDescription());
+        assertFalse(modifiedActivity.getPriority());
+        assertEquals(ActivityType.REMINDER, modifiedActivity.getType());
+    }
+
+    @Test
+    public void testModifyActivityNotFound() throws QueueException, StackException {
+        setUp1();
+
+
+        String modifyResult = controller.modifyActivity("non_existent_task", "new description", Calendar.getInstance(), 2, 2);
+        assertEquals("Activity not found", modifyResult);
+
+
+        String undoResult = controller.undoLastAction();
+        assertEquals("There is no action to undo", undoResult);
+    }
+
 
 }

@@ -257,6 +257,38 @@ public class ActivityManagerTest {
     }
 
     @Test
+    public void testViewUpdateList() throws QueueException {
+
+        setUp2();
+        assertFalse(activitiesManager.getPriorActivities().isEmpty());
+        assertFalse(activitiesManager.getNonPriorActivities().isEmpty());
+
+
+        String activitiesString = activitiesManager.toString();
+        assertTrue(activitiesString.contains("Title: prior"));
+        assertTrue(activitiesString.contains("Title: NonPrior"));
+
+
+        Activity priorActivity = activitiesManager.getActivity("prior");
+        Activity nonPriorActivity = activitiesManager.getActivity("NonPrior");
+
+        activitiesManager.removeActivity(priorActivity);
+        activitiesManager.removeActivity(nonPriorActivity);
+
+
+        assertNull(activitiesManager.getActivity("prior"));
+        assertNull(activitiesManager.getActivity("NonPrior"));
+
+
+        activitiesString = activitiesManager.toString();
+        assertFalse(activitiesString.contains("Title: prior"));
+        assertFalse(activitiesString.contains("Title: NonPrior"));
+    }
+
+
+
+
+    @Test
     public void testModifyActivityFound() throws QueueException {
         setUp2();
 
