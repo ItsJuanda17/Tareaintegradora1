@@ -142,6 +142,7 @@ public class ActivityManagerTest {
         assertEquals(activity, back);
     }
 
+ @Test
   void testRemoveActivityFromEmptyManager() {
         // Arrange
         Activity activity = new Activity("task", "description", null, true, ActivityType.TASK);
