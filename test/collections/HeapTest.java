@@ -77,7 +77,7 @@ public class HeapTest {
         heap.buildHeap();
 
 
-        String expected = "10 10  5 5 5 3 ";
+        String expected = "10 10 5 5 5 3 ";
         String actual = heap.toString();
         assertEquals(expected, actual);
     }
