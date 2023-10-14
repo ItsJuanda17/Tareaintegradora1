@@ -54,7 +54,7 @@ public class HashTableTest {
         // Arrange
         IHashtable<String, Integer> hashtable = new HashTable<>();
 
-        // Agregar una clave-valor a la tabla hash
+
         hashtable.put("key1", 1);
 
         // Act
@@ -63,6 +63,19 @@ public class HashTableTest {
         // Assert
         assertFalse(hashtable.contains("key1"));
         assertNull(hashtable.get("key1"));
+    }
+
+    @Test
+    void testRemoveNonExistentKey() {
+        // Arrange
+        String key = "nonExistentKey";
+
+        // Act
+        hashtable.remove(key);
+
+        // Assert
+        assertFalse(hashtable.contains(key));
+        assertNull(hashtable.get(key));
     }
 
 
@@ -82,9 +95,34 @@ public class HashTableTest {
     }
 
     @Test
+    void testContainsNonExistentKey() {
+        // Arrange
+        String key = "nonExistentKey";
+
+        // Act
+        boolean containsKey = hashtable.contains(key);
+
+        // Assert
+        assertFalse(containsKey);
+    }
+
+    @Test
     void testIsEmpty() {
         // Act - Assert
         assertTrue(hashtable.isEmpty());
+    }
+
+    @Test
+    void testIsEmptyAfterInsert() {
+        // Arrange
+        String key = "key";
+        int value = 42;
+
+        // Act
+        hashtable.put(key, value);
+
+        // Assert
+        assertFalse(hashtable.isEmpty());
     }
 
     @Test
@@ -103,4 +141,24 @@ public class HashTableTest {
         // Assert
         assertEquals(2, size);
     }
+
+    @Test
+    void testSizeAfterInsertAndRemove() {
+        // Arrange
+        String key1 = "key1";
+        int value1 = 42;
+        String key2 = "key2";
+        int value2 = 123;
+
+        // Act
+        hashtable.put(key1, value1);
+        hashtable.put(key2, value2);
+        hashtable.remove(key1);
+        int size = hashtable.size();
+
+        // Assert
+        assertEquals(1, size);
+    }
+
+
 }
