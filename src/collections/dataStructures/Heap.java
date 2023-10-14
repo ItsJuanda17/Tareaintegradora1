@@ -100,5 +100,20 @@ public class Heap<T extends Comparable<T>> implements IHeap<T> {
         return msg.toString();
     }
 
+    public void controllerTest(T item) {
+        if (size == heap.length) {
+            
+            heap = Arrays.copyOf(heap, heap.length * 2);
+        }
+        heap[size] = item;
+        size++;
+        
+        int currentIndex = size - 1;
+        while (currentIndex > 0 && heap[currentIndex].compareTo(heap[parent(currentIndex)]) > 0) {
+            swap(currentIndex, parent(currentIndex));
+            currentIndex = parent(currentIndex);
+        }
+    }
+
 
 }
