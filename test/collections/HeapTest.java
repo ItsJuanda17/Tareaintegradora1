@@ -1,179 +1,125 @@
-
-
-package collections.dataStructures.test;
+package collections;
 
 import collections.dataStructures.Heap;
-import collections.interfaces.IHeap;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class HeapTest {
 
-    private IHeap<Integer> heap;
+    private Heap<Integer> heap;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         heap = new Heap<>();
     }
 
+
+
     @Test
-    public void testParent() {
-        assertEquals(0, heap.parent(1));
-        assertEquals(1, heap.parent(3));
-        assertEquals(0, heap.parent(2));
-        assertEquals(2, heap.parent(5));
+    void testToString() {
+        // Test 1 toString
+        heap.controllerTest(12);
+        heap.controllerTest(1);
+        heap.controllerTest(8);
+
+
+        String expected = "12 1 8 ";
+        String actual = heap.toString();
+        assertEquals(expected, actual);
     }
 
+
     @Test
-    public void testParentWithDifferentValues() {
-        assertEquals(0, heap.parent(4));
-        assertEquals(3, heap.parent(9));
-        assertEquals(2, heap.parent(10));
-        assertEquals(3, heap.parent(8));
+    void testToStringWithEmptyHeap() {
+
+        String expected = "";
+        String actual = heap.toString();
+        assertEquals(expected, actual);
     }
 
-    @Test
-    public void testLeft() {
-        assertEquals(1, heap.left(0));
-        assertEquals(3, heap.left(1));
-        assertEquals(2, heap.left(3));
-        assertEquals(5, heap.left(2));
-    }
+
 
     @Test
-    public void testLeftWithDifferentValues() {
-        assertEquals(2, heap.left(1));
-        assertEquals(4, heap.left(0));
-        assertEquals(6, heap.left(3));
-        assertEquals(4, heap.left(5));
-    }
-
-    @Test
-    public void testRight() {
-        assertEquals(2, heap.right(0));
-        assertEquals(4, heap.right(1));
-        assertEquals(3, heap.right(3));
-        assertEquals(6, heap.right(2));
-    }
-
-    @Test
-    public void testRightWithDifferentValues() {
-        assertEquals(3, heap.right(1));
-        assertEquals(5, heap.right(0));
-        assertEquals(7, heap.right(4));
-        assertEquals(5, heap.right(7));
-    }
-
-    @Test
-    public void testSwap() {
-        heap.insert(1);
-        heap.insert(2);
-        heap.insert(3);
-
-        heap.swap(0, 2);
-
-        assertEquals(3, (int) heap.extractMax());
-        assertEquals(2, (int) heap.extractMax());
-        assertEquals(1, (int) heap.extractMax());
-    }
-
-    @Test
-    public void testSwapWithDifferentValues() {
-        heap.insert(5);
-        heap.insert(9);
-        heap.insert(1);
-
-        heap.swap(1, 2);
-
-        assertEquals(9, (int) heap.extractMax());
-        assertEquals(1, (int) heap.extractMax());
-        assertEquals(5, (int) heap.extractMax());
-    }
-
-    @Test
-    public void testBuildHeap() {
-        heap.insert(4);
-        heap.insert(10);
-        heap.insert(3);
-        heap.insert(5);
-        heap.insert(1);
-
+    void testBuildHeap() {
+        // Test 1 : BuildHeap
+        heap.controllerTest(10);
+        heap.controllerTest(5);
+        heap.controllerTest(7);
         heap.buildHeap();
 
-        assertEquals(10, (int) heap.extractMax());
-        assertEquals(5, (int) heap.extractMax());
-        assertEquals(4, (int) heap.extractMax());
-        assertEquals(3, (int) heap.extractMax());
-        assertEquals(1, (int) heap.extractMax());
+        String expected = "10 5 7 ";
+        String actual = heap.toString();
+        assertEquals(expected, actual);
+
+        // Test 2 BuildHeap
+        Heap<Integer> anotherHeap = new Heap<>();
+        anotherHeap.controllerTest(15);
+        anotherHeap.controllerTest(2);
+        anotherHeap.controllerTest(20);
+        anotherHeap.buildHeap();
+
+        expected = "20 2 15 ";
+        actual = anotherHeap.toString();
+        assertEquals(expected, actual);
     }
 
-    @Test
-    public void testBuildHeapWithDifferentValues() {
-        heap.insert(8);
-        heap.insert(6);
-        heap.insert(2);
-        heap.insert(7);
-        heap.insert(9);
 
+    @Test
+    void testBuildHeapWithDuplicateValues() {
+
+        heap.controllerTest(5);
+        heap.controllerTest(5);
+        heap.controllerTest(5);
+        heap.controllerTest(10);
+        heap.controllerTest(10);
+        heap.controllerTest(3);
         heap.buildHeap();
 
-        assertEquals(9, (int) heap.extractMax());
-        assertEquals(8, (int) heap.extractMax());
-        assertEquals(7, (int) heap.extractMax());
-        assertEquals(6, (int) heap.extractMax());
-        assertEquals(2, (int) heap.extractMax());
+
+        String expected = "10 10  5 5 5 3 ";
+        String actual = heap.toString();
+        assertEquals(expected, actual);
     }
 
     @Test
-    public void testHeapSort() {
-        heap.insert(3);
-        heap.insert(1);
-        heap.insert(4);
-        heap.insert(2);
+    void testBuildHeapWithDifferentValues() {
+        // Prueba de buildHeap con diferentes valores
+        heap.controllerTest(20);
+        heap.controllerTest(15);
+        heap.controllerTest(25);
+        heap.controllerTest(10);
+        heap.controllerTest(5);
+        heap.buildHeap();
 
-        IHeap<Integer> sortedHeap = heap.heapSort();
-
-        assertEquals(1, (int) sortedHeap.extractMax());
-        assertEquals(2, (int) sortedHeap.extractMax());
-        assertEquals(3, (int) sortedHeap.extractMax());
-        assertEquals(4, (int) sortedHeap.extractMax());
+        // Asegurar que la construcción del montículo se realiza correctamente
+        String expected = "25 15 20 10 5 ";
+        String actual = heap.toString();
+        assertEquals(expected, actual);
     }
+
 
     @Test
-    public void testHeapSortWithDifferentValues() {
-        heap.insert(7);
-        heap.insert(5);
-        heap.insert(2);
-        heap.insert(9);
+    void testHeapSort() {
+        // test 1 heapSort
+        heap.controllerTest(15);
+        heap.controllerTest(3);
+        heap.controllerTest(10);
+        Heap<Integer> sortedHeap = heap.heapSort();
 
-        IHeap<Integer> sortedHeap = heap.heapSort();
+        String expected = "3 10 15 ";
+        String actual = sortedHeap.toString();
+        assertEquals(expected, actual);
 
-        assertEquals(2, (int) sortedHeap.extractMax());
-        assertEquals(5, (int) sortedHeap.extractMax());
-        assertEquals(7, (int) sortedHeap.extractMax());
-        assertEquals(9, (int) sortedHeap.extractMax());
+        // test2 heapSort
+        Heap<Integer> anotherHeap = new Heap<>();
+        anotherHeap.controllerTest(50);
+        anotherHeap.controllerTest(30);
+        anotherHeap.controllerTest(20);
+        sortedHeap = anotherHeap.heapSort();
+
+        expected = "20 30 50 ";
+        actual = sortedHeap.toString();
+        assertEquals(expected, actual);
     }
-
-    @Test
-    public void testToString() {
-        heap.insert(1);
-        heap.insert(2);
-        heap.insert(3);
-
-        String expected = "\t-3\n\t-2\n\t-1\n";
-        assertEquals(expected, heap.toString());
-    }
-
-    @Test
-    public void testToStringWithDifferentValues() {
-        heap.insert(5);
-        heap.insert(7);
-        heap.insert(1);
-
-        String expected = "\t-7\n\t-5\n\t-1\n";
-        assertEquals(expected, heap.toString());
-    }
-
 }
