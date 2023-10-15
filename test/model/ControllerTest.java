@@ -73,6 +73,7 @@ public class ControllerTest {
 
      @Test
     public void testRemoveActivitySuccess() throws StackException, QueueException {
+        setUp1();
         // Arrange
         controller.registerActivity("task3", "description", Calendar.getInstance(), 1, 1);
 
@@ -85,6 +86,7 @@ public class ControllerTest {
 
     @Test
     public void testRemoveActivityNotFound() throws StackException, QueueException {
+        setUp1();
         // Act
         String message = controller.removeActivity("non-existing");
 
