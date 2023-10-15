@@ -15,7 +15,6 @@ public class HeapTest {
     }
 
 
-
     @Test
     void testToString() {
         // Test 1 toString
@@ -24,7 +23,11 @@ public class HeapTest {
         heap.controllerTest(8);
 
 
-        String expected = "12 1 8 ";
+        String expected = (
+                "\t-12\n" +
+                "\t-1\n" +
+                "\t-8\n"
+                );
         String actual = heap.toString();
         assertEquals(expected, actual);
     }
@@ -32,8 +35,7 @@ public class HeapTest {
 
     @Test
     void testToStringWithEmptyHeap() {
-
-        String expected = "";
+        String expected = "None";
         String actual = heap.toString();
         assertEquals(expected, actual);
     }
@@ -43,12 +45,16 @@ public class HeapTest {
     @Test
     void testBuildHeap() {
         // Test 1 : BuildHeap
-        heap.controllerTest(10);
         heap.controllerTest(5);
+        heap.controllerTest(10);
         heap.controllerTest(7);
         heap.buildHeap();
 
-        String expected = "10 5 7 ";
+        String expected = (
+                "\t-10\n" +
+                "\t-5\n" +
+                "\t-7\n"
+                );
         String actual = heap.toString();
         assertEquals(expected, actual);
 
@@ -59,7 +65,11 @@ public class HeapTest {
         anotherHeap.controllerTest(20);
         anotherHeap.buildHeap();
 
-        expected = "20 2 15 ";
+        expected = (
+                "\t-20\n" +
+                "\t-2\n" +
+                "\t-15\n"
+                );
         actual = anotherHeap.toString();
         assertEquals(expected, actual);
     }
@@ -67,7 +77,6 @@ public class HeapTest {
 
     @Test
     void testBuildHeapWithDuplicateValues() {
-
         heap.controllerTest(5);
         heap.controllerTest(5);
         heap.controllerTest(5);
@@ -77,7 +86,14 @@ public class HeapTest {
         heap.buildHeap();
 
 
-        String expected = "10 10 5 5 5 3 ";
+        String expected = (
+                "\t-10\n" +
+                "\t-10\n" +
+                "\t-5\n" +
+                "\t-5\n" +
+                "\t-5\n" +
+                "\t-3\n"
+                );
         String actual = heap.toString();
         assertEquals(expected, actual);
     }
@@ -93,7 +109,13 @@ public class HeapTest {
         heap.buildHeap();
 
         // Asegurar que la construcción del montículo se realiza correctamente
-        String expected = "25 15 20 10 5 ";
+        String expected = (
+                "\t-25\n" +
+                "\t-15\n" +
+                "\t-20\n" +
+                "\t-10\n" +
+                "\t-5\n"
+                );
         String actual = heap.toString();
         assertEquals(expected, actual);
     }
@@ -107,7 +129,11 @@ public class HeapTest {
         heap.controllerTest(10);
         Heap<Integer> sortedHeap = heap.heapSort();
 
-        String expected = "3 10 15 ";
+        String expected = (
+                "\t-3\n" +
+                "\t-10\n" +
+                "\t-15\n"
+                );
         String actual = sortedHeap.toString();
         assertEquals(expected, actual);
 
@@ -118,7 +144,11 @@ public class HeapTest {
         anotherHeap.controllerTest(20);
         sortedHeap = anotherHeap.heapSort();
 
-        expected = "20 30 50 ";
+        expected = (
+                "\t-20\n" +
+                "\t-30\n" +
+                "\t-50\n"
+                );
         actual = sortedHeap.toString();
         assertEquals(expected, actual);
     }
