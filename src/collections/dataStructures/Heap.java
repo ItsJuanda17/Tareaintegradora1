@@ -81,6 +81,7 @@ public class Heap<T extends Comparable<T>> implements IHeap<T> {
             sortedHeap.size--;
             sortedHeap.heapify(0);
         }
+        sortedHeap.size = size;
         return sortedHeap;
     }
 
