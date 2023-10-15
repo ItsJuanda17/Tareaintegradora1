@@ -142,8 +142,9 @@ public class ActivityManagerTest {
         assertEquals(activity, back);
     }
 
- @Test
-  void testRemoveActivityFromEmptyManager() {
+    @Test
+    void testRemoveActivityFromEmptyManager() {
+        setUp1();
         // Arrange
         Activity activity = new Activity("task", "description", null, true, ActivityType.TASK);
 
@@ -156,7 +157,8 @@ public class ActivityManagerTest {
 
     @Test
     void testRemoveActivityThatDoesNotExist() throws QueueException {
-    
+        setUp1();
+
         Activity existingActivity = new Activity("existing", "description", null, true, ActivityType.TASK);
         Activity nonExistingActivity = new Activity("non-existing", "description", null, true, ActivityType.TASK);
 
@@ -172,6 +174,7 @@ public class ActivityManagerTest {
 
     @Test
     void testRemoveActivityFromManager() throws QueueException {
+        setUp1();
         // Arrange
         Activity activity = new Activity("task", "description", null, true, ActivityType.TASK);
 
