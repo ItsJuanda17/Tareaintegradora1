@@ -74,9 +74,7 @@ public class PriorityQueueTest {
         PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
 
         // Try to extract the root when the priority queue is empty
-        assertThrows(QueueException.class, () -> {
-            priorityQueue.extractRoot();
-        });
+        assertNull(priorityQueue.extractRoot());
     }
 
 
